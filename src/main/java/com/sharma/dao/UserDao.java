@@ -6,7 +6,7 @@ import com.sharma.model.UserRole;
 public interface UserDao {
 
 	User findByUserName(String username);
-	public void register(User user, UserRole role);
+	public void register(User user);
 	
 
 }

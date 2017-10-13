@@ -32,6 +32,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		com.sharma.model.User user = userDao.findByUserName(username);
 		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
+		System.out.println(authorities.get(0));
 		return buildUserForAuthentication(user, authorities);
 		
 	}
@@ -39,6 +40,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	// Converts com.mkyong.users.model.User user to
 	// org.springframework.security.core.userdetails.User
 	private User buildUserForAuthentication(com.sharma.model.User user, List<GrantedAuthority> authorities) {
+		System.out.println("KULLLLLLLLLLLLLIIIIII:"+user.getPassword());
 		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
 	}
 

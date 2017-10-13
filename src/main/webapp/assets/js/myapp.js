@@ -343,8 +343,9 @@ $(function() {
 		$loginForm.validate({			
 				rules: {
 					username: {
-						required: true,
-						email: true
+						required: true
+						//,
+						//email: true
 						
 					},
 					password: {
@@ -353,8 +354,9 @@ $(function() {
 				},
 				messages: {					
 					username: {
-						required: 'Please enter your email!',
-						email: 'Please enter a valid email address!'
+						required: 'Please enter your username!'
+						//	,
+						//email: 'Please enter a valid email address!'
 					},
 					password: {
 						required: 'Please enter your password!'

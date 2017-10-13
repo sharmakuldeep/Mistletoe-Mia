@@ -94,14 +94,19 @@
 				<%@include file="manageProduct.jsp"%>
 			</c:if>
 			<c:if test="${userClickAllProducts==true }">
-				<%@include file="listProducts.jsp"%>
+				<%@include file="listProducts1.jsp"%>
 			</c:if>
 			<c:if test="${userClickCategoryProducts==true }">
-				<%@include file="listProducts.jsp"%>
+				<%@include file="listProducts1.jsp"%>
 			</c:if>
+			<%-- 	<c:if test="${userClickCategoryProducts==true }">
+				<%@include file="listProducts.jsp"%>
+			</c:if> --%>
 			<c:if test="${userClickShowProduct==true }">
 				<%@include file="singleProduct.jsp"%>
 			</c:if>
+
+
 		</div>
 
 

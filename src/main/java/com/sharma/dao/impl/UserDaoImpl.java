@@ -5,14 +5,16 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sharma.dao.UserDao;
 import com.sharma.model.User;
-import com.sharma.model.UserRole;
 
 
 @Repository("userDao")
+@Transactional
 public class UserDaoImpl implements UserDao {
 
 	@Autowired
@@ -23,7 +25,8 @@ public class UserDaoImpl implements UserDao {
 
 		List<User> users = new ArrayList<User>();
 
-		users = sessionFactory.getCurrentSession().createQuery("from User where username=?").setParameter(0, username)
+		users = sessionFactory.getCurrentSession()
+				.createQuery("from User where username=?").setParameter(0, username)
 				.list();
 
 		if (users.size() > 0) {
@@ -34,10 +37,10 @@ public class UserDaoImpl implements UserDao {
 
 	}
 	
-	public void register(User user, UserRole role){
-		
+	public void register(User user){
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sessionFactory.getCurrentSession().persist(user);
-		sessionFactory.getCurrentSession().persist(role);
 	}
 
 }

@@ -4,7 +4,13 @@
 
 
 	<div class="row">
-
+<c:if test="${not empty registered}">
+		<div class="row">
+			<div class="col-xs-12 col-md-offset-2 col-md-8">
+				<div class="alert alert-success fade in">${registered}</div>
+			</div>
+		</div>
+	</c:if>
 		<div class="col-md-6 col-md-offset-3">
 
 			<div class="panel panel-primary">
@@ -16,10 +22,10 @@
 				<div class="panel-body">
 
 					<sf:form method="POST" modelAttribute="user"
-						class="form-horizontal" id="registerForm">
+						class="form-horizontal" id="registerForm" action="${contextRoot}/membership">
 
 
-						<div class="form-group">
+				<%-- 		<div class="form-group">
 							<label class="control-label col-md-4">First Name</label>
 							<div class="col-md-8">
 								<sf:input type="text" path="firstName" class="form-control"
@@ -55,6 +61,16 @@
 								<sf:errors path="contactNumber" cssClass="help-block"
 									element="em" />
 							</div>
+						</div> --%>
+						
+							<div class="form-group">
+							<label class="control-label col-md-4">User Name</label>
+							<div class="col-md-8">
+								<sf:input type="text" path="username" class="form-control"
+									placeholder="username" maxlength="10" />
+								<sf:errors path="username" cssClass="help-block"
+									element="em" />
+							</div>
 						</div>
 
 						<div class="form-group">
@@ -66,7 +82,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+					<%-- 	<div class="form-group">
 							<label class="control-label col-md-4">Confirm Password</label>
 							<div class="col-md-8">
 								<sf:input type="password" path="confirmPassword"
@@ -74,16 +90,22 @@
 								<sf:errors path="confirmPassword" cssClass="help-block"
 									element="em" />
 							</div>
-						</div>
+						</div> --%>
 
 						<div class="form-group">
 							<label class="control-label col-md-4">Select Role</label>
 							<div class="col-md-8">
-								<label class="radio-inline"> <sf:radiobutton
-										path="userRole" value="USER" checked="checked" /> User
-								</label> <label class="radio-inline"> <sf:radiobutton
-										path="userRole" value="SUPPLIER" /> Supplier
+							
+								<c:forEach var="role" items="${roles}">
+									<label class="radio-inline"> 
+								<sf:radiobutton
+										path="roleName" value="${role}" checked="checked" /> ${role}
 								</label>
+								</c:forEach> 
+							<%-- 	<label class="radio-inline">
+								 <sf:radiobutton
+										path="userRole" value="SUPPLIER" /> Supplier
+								</label> --%>
 							</div>
 						</div>
 
