@@ -12,10 +12,12 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	public boolean register(User user){
-		
+	public boolean register(User user){		
 		userDao.register(user);
-		return true;
-		
+		return true;		
+	}
+	
+	public User getByUserName(String userName){
+		return userDao.findByUserName(userName);
 	}
 }

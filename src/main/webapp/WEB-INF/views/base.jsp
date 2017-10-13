@@ -105,6 +105,10 @@
 			<c:if test="${userClickShowProduct==true }">
 				<%@include file="singleProduct.jsp"%>
 			</c:if>
+			
+			<c:if test="${accessDenied==true }">
+				<%@include file="403.jsp"%>
+			</c:if>
 
 
 		</div>

@@ -134,11 +134,18 @@ public class MainController {
 	}
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
-	public ModelAndView loginPage() {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView loginPage(@RequestParam(name="error", required = false)	String error,
+			@RequestParam(name="logout", required = false) String logout) {
+		ModelAndView mv = new ModelAndView();		
 		mv.setViewName("base");
 		mv.addObject("title", "Login");
 		mv.addObject("userClickLogin", true);
+		if(error!=null) {
+			mv.addObject("message", "Username and Password is invalid!");
+		}
+		if(logout!=null) {
+			mv.addObject("logout", "You have logged out successfully!");
+		}
 		return mv;
 	}
 
@@ -196,7 +203,8 @@ public class MainController {
 	@RequestMapping(value = "/403")
     public ModelAndView handleAccessDenied(){
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("403");
+        mv.setViewName("base");
+        mv.addObject("accessDenied", true);
         return mv;
     }
 

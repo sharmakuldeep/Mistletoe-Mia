@@ -1,6 +1,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 	<script>
-		window.userRole = '${userModel.role}';
+		window.userRole = '${userModel.roleName}';
+		console.log("Hello Kuldeep"+ window.userRole);
 	</script>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -47,15 +48,16 @@
 			    	<security:authorize access="isAuthenticated()">
 						<li class="dropdown" id="userModel">
 						  <a class="btn btn-default dropdown-toggle" href="javascript:void(0)" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						    ${userModel.fullName}
+						   Welcome &nbsp;&nbsp; ${userModel.username}
 						    <span class="caret"></span>
 						  </a>
 						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-		                    <security:authorize access="hasAuthority('USER')">
+		                    <security:authorize access="hasAuthority('ROLE_USER')">
 			                    <li id="cart">
 			                        <a href="${contextRoot}/cart/show">
-			                        	<span class="glyphicon glyphicon-shopping-cart"></span>&#160;<span class="badge">${userModel.cart.cartLines}</span> - &#8377; ${userModel.cart.grandTotal} 
-			                        </a>
+			                        	<span class="glyphicon glyphicon-shopping-cart"></span>&#160;
+<%-- 			                        	<span class="badge">${userModel.cart.cartLines}</span> - &#8377; ${userModel.cart.grandTotal} 
+ --%>			                        </a>
 			                    </li>		     
 			                	<li role="separator" class="divider"></li>	                                   
 		                    </security:authorize>
