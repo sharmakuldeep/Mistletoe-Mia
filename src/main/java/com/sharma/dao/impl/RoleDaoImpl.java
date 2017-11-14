@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sharma.dao.RoleDao;
-import com.sharma.model.UserRole;
+import com.sharma.model.Role;
 @Repository("roleDao")
 @Transactional
 public class RoleDaoImpl implements RoleDao {
@@ -18,20 +18,20 @@ public class RoleDaoImpl implements RoleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserRole> getAll() {
+	public List<Role> getAll() {
 		return sessionFactory
 				.getCurrentSession()
-					.createQuery("FROM UserRole")
+					.createQuery("FROM Role")
 						.list();
 	}
 	
-	public UserRole getRole(String role){
+	public Role getRole(String role){
 		
 		List l = sessionFactory.
 				getCurrentSession().
-				createQuery("From UserRole where role=?")
+				createQuery("From Role where roleName=?")
 				.setParameter(0, role).list();
-		return (UserRole) l.get(0);
+		return (Role) l.get(0);
 	}
 
 }

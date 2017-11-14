@@ -41,6 +41,8 @@ app.controller('AllProductController', [
 							console.log(response.data);
 							$scope.allProducts = response.data;
 						})
-			}
+			};
+			
+			
 
 		} ]);

@@ -5,30 +5,53 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "User")
 public class User {
-
+	@Id
+	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String username;
+	@Column(name = "password", nullable = false, length = 60)
 	private String password;
+	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
-
+	@Transient
 	private String roleName;
+	@Email
+	@Column(name = "email", nullable = false)
+	private String email;
+	
+	@Column(name = "contactNo", nullable = true)
+	private String contactNo;
+	@Column(name = "address", nullable = true)
+	private String address;
+	
+	@Column(name="fullName",nullable= false)
+	private String fullName;
 
-	private Set<UserRole> userRole = new HashSet<UserRole>();
+	@ManyToMany
+	@JoinTable(name = "UserRole", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+			@JoinColumn(name = "roleId") })
+	@JsonManagedReference 
+	private Set<Role> userRole = new HashSet<Role>();
 
 	public User() {
 	}
-	@Transient
+
 	public String getRoleName() {
 		return roleName;
 	}
@@ -43,17 +66,13 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public User(String username, String password,
-		boolean enabled, Set<UserRole> userRole) {
-		this.username = username;
-		this.password = password;
-		this.enabled = enabled;
-		this.userRole = userRole;
-	}
+//	public User(String username, String password, boolean enabled, Set<UserRole> userRole) {
+//		this.username = username;
+//		this.password = password;
+//		this.enabled = enabled;
+//		this.userRole = userRole;
+//	}
 
-	@Id
-	@Column(name = "username", unique = true,
-		nullable = false, length = 45)
 	public String getUsername() {
 		return this.username;
 	}
@@ -62,8 +81,6 @@ public class User {
 		this.username = username;
 	}
 
-	@Column(name = "password",
-		nullable = false, length = 60)
 	public String getPassword() {
 		return this.password;
 	}
@@ -72,7 +89,6 @@ public class User {
 		this.password = password;
 	}
 
-	@Column(name = "enabled", nullable = false)
 	public boolean isEnabled() {
 		return this.enabled;
 	}
@@ -80,17 +96,60 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.MERGE)
-//	@OneToMany(cascade = CascadeType.MERGE)
-//	@JoinTable(name = "User_Role", joinColumns = { @JoinColumn(name = "User_id") }, inverseJoinColumns = { @JoinColumn(name = "Role_id") })
-	@ElementCollection
-	public Set<UserRole> getUserRole() {
-		return this.userRole;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserRole(Set<UserRole> userRole) {
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
+
+	public void setUserRole(Set<Role> userRole) {
 		this.userRole = userRole;
 	}
+
+	
+
+	public Set<Role> getUserRole() {
+		return userRole;
+	}
+	
+	
+	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Cart cart;
+	public Cart getCart() {
+		return cart;
+	}
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	
+	
 
 }

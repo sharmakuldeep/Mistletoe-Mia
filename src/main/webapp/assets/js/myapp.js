@@ -35,6 +35,9 @@ $(function() {
 	case 'Product Management':
 		$('#manageProduct').addClass('active');
 		break;
+	case 'User Management':
+		$('#manageUser').addClass('active');
+		break;
 	case 'Shopping Cart':
 		$('#userModel').addClass('active');
 		break;		
@@ -168,8 +171,6 @@ $(function() {
 					},
 					columns : [		
 					           	{data: 'id'},
-
-
 					           	{data: 'code',
 					           	 bSortable: false,
 					           		mRender: function(data,type,row) {
@@ -275,6 +276,76 @@ $(function() {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	// list of all products for admin
+	var $usersTable = $('#usersTable');	
+	if($usersTable.length) {
+		
+		var jsonUrl = window.contextRoot + '/json/data/admin/all/users';
+		console.log(jsonUrl);
+		
+		$usersTable.DataTable({
+					lengthMenu : [ [ 5, 10, 30, 50, -1 ], [ '5 Records', '10 Records', '30 Records', '50 Records', 'ALL' ] ],
+					pageLength : 5,				
+					columns : [		
+					        			           
+					           	{
+									data : 'userName'
+								},
+								{
+									data : 'email'
+								},
+								{
+									data : 'contactNo'
+								
+								},
+								{
+									data : 'address'
+								},
+								{
+									data : 'active',
+									bSortable : false,
+//								
+								}					           	
+					]
+				});
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// jQuery Validation Code
 
 	//methods required for validation
@@ -336,10 +407,9 @@ $(function() {
 	
 	// validating the product form element	
 	// fetch the form element
-	$loginForm = $('#loginForm');
-	
-	if($loginForm.length) {
-		
+	$loginForm = $('#loginForm');	
+	$registrationForm = $("#registerForm");
+	if($loginForm.length) {		
 		$loginForm.validate({			
 				rules: {
 					username: {
@@ -361,6 +431,50 @@ $(function() {
 					password: {
 						required: 'Please enter your password!'
 					}					
+				},
+				errorElement : "em",
+				errorPlacement : function(error, element) {
+					// Add the 'help-block' class to the error element
+					error.addClass("help-block");
+					
+					// add the error label after the input element
+					error.insertAfter(element);
+				}				
+			}
+		
+		);
+		
+	}
+	
+	$registrationForm = $("#registerForm");
+	if($registrationForm.length) {		
+		$registrationForm.validate({			
+				rules: {
+					username: {
+						required: true
+						//,
+						//email: true
+						
+					},
+					password: {
+						required: true
+					},
+					roleName:{
+						required:true
+					}
+				},
+				messages: {					
+					username: {
+						required: 'Please enter your username!'
+						//	,
+						//email: 'Please enter a valid email address!'
+					},
+					password: {
+						required: 'Please enter your password!'
+					},
+					releName:{
+						required:'Please select a Role For User'
+					}
 				},
 				errorElement : "em",
 				errorPlacement : function(error, element) {
@@ -427,11 +541,43 @@ function changeMainImage(obj){
 
 function scaleImageUp(obj){
 	console.log("hi");
-	if($(obj).hasClass("resize")){
-		
+	if($(obj).hasClass("resize")){		
 		$(obj).removeClass("resize");
 	}
 	else{
 		$(obj).addClass("resize");
 	}
+}
+
+function enableUser(val){
+	console.log("Hi kuldeep");
+	var checkbox= $(val);
+	var dText = (checkbox.prop("checked"))? 'You want to activate the User?': 'You want to de-activate the User?';
+	var checked = checkbox.prop("checked");
+	
+	
+    bootbox.confirm({
+    	size: 'medium',
+    	title: 'User Activation/Deactivation',
+    	message: dText,
+    	callback: function (confirmed) {
+	        if (confirmed) {
+	            $.ajax({							            	
+	            	type: 'GET',
+	            	url: window.contextRoot + '/manage/user/'+checkbox.prop('value')+'/activation',
+	        		timeout : 100000,
+	        		success : function(data) {
+	        			bootbox.alert(data);							        										        			
+	        		},
+	        		error : function(e) {
+	        			bootbox.alert('ERROR: '+ e);
+	        			//display(e);
+	        		}						            	
+	            });
+	        }
+	        else {							        	
+	        	checkbox.prop('checked', !checked);
+	        }
+    	}
+    });
 }

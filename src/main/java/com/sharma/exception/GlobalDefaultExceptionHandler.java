@@ -43,23 +43,15 @@ public class GlobalDefaultExceptionHandler {
 		
 	
 	@ExceptionHandler(Exception.class)
-	public ModelAndView handlerException(Exception ex) {
-		
-		ModelAndView mv = new ModelAndView("error");
-		
-		mv.addObject("errorTitle", "Contact Your Administrator!!");
-		
-		
+	public ModelAndView handlerException(Exception ex) {		
+		ModelAndView mv = new ModelAndView("error");		
+		mv.addObject("errorTitle", "Contact Your Administrator!!");		
 		/* only for debugging your application*/
 		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		
-		ex.printStackTrace(pw);
-						
-		mv.addObject("errorDescription", sw.toString());
-		
-		mv.addObject("title", "Error");
-		
+		PrintWriter pw = new PrintWriter(sw);		
+		ex.printStackTrace(pw);						
+		mv.addObject("errorDescription", sw.toString());		
+		mv.addObject("title", "Error");		
 		return mv;
 	}
 			

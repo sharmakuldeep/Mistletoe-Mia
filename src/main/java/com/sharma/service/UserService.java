@@ -1,11 +1,12 @@
 package com.sharma.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sharma.dao.UserDao;
 import com.sharma.model.User;
-import com.sharma.model.UserRole;
 
 @Service("userService")
 public class UserService {	
@@ -20,4 +21,11 @@ public class UserService {
 	public User getByUserName(String userName){
 		return userDao.findByUserName(userName);
 	}
-}
+	public boolean updateUser(User u){
+		return userDao.updateUser(u);
+		
+	}
+	public List<User> getAllUser(){
+		return userDao.getAllUser();
+	}
+	}

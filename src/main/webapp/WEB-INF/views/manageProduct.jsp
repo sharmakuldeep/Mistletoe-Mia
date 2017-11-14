@@ -72,7 +72,7 @@
 
 
 						<div class="form-group">
-							<label class="control-label col-md-4">Upload a file</label>
+							<label class="control-label col-md-4">Upload a file1</label>
 							<div class="col-md-8">
 								<sf:input type="file" path="file" class="form-control"/>
 								<sf:errors path="file" cssClass="help-block" element="em"/> 
@@ -80,21 +80,21 @@
 						</div>
 						
 						<div class="form-group">
-							<label class="control-label col-md-4">Upload a file1</label>
+							<label class="control-label col-md-4">Upload a file2</label>
 							<div class="col-md-8">
 								<sf:input type="file" path="file1" class="form-control"/>
 								<sf:errors path="file1" cssClass="help-block" element="em"/> 
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4">Upload a file2</label>
+							<label class="control-label col-md-4">Upload a file3</label>
 							<div class="col-md-8">
 								<sf:input type="file" path="file2" class="form-control"/>
 								<sf:errors path="file2" cssClass="help-block" element="em"/> 
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-4">Upload a file3</label>
+							<label class="control-label col-md-4">Upload a file4</label>
 							<div class="col-md-8">
 								<sf:input type="file" path="file3" class="form-control"/>
 								<sf:errors path="file3" cssClass="help-block" element="em"/> 

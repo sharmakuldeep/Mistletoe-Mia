@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sharma.dao.RoleDao;
-import com.sharma.model.UserRole;
+import com.sharma.model.Role;
 
 @Service("roleService")
 public class RoleService {
@@ -19,7 +19,7 @@ public class RoleService {
 		return roleDao.getAll();
 	}
 	
-	public UserRole getRole(String role){
+	public Role getRole(String role){
 		return roleDao.getRole(role);
 	}
 

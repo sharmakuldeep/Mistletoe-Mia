@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -36,7 +37,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	private Properties getHibernateProperties() {
 		Properties prop = new Properties();
 		prop.put("hibernate.format_sql", "true");
-		prop.put("hibernate.show_sql", "true");
+	//	prop.put("hibernate.show_sql", "true");
 		prop.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 		prop.put("hibernate.hbm2ddl.auto", "update");
 		return prop;
@@ -72,21 +73,36 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/assets/");
 	}
 
+	// @Bean
+	// public CommonsMultipartResolver multipartResolver() {
+	//
+	// CommonsMultipartResolver cmr = new CommonsMultipartResolver();
+	// cmr.setMaxUploadSize(maxUploadSizeInMb * 2);
+	// cmr.setMaxUploadSizePerFile(maxUploadSizeInMb); // bytes
+	// return cmr;
+	// }
 
-
-//	@Bean
-//	public CommonsMultipartResolver multipartResolver() {
-//
-//		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-//		cmr.setMaxUploadSize(maxUploadSizeInMb * 2);
-//		cmr.setMaxUploadSizePerFile(maxUploadSizeInMb); // bytes
-//		return cmr;
-//	}
-	
 	@Bean(name = "multipartResolver")
-    public StandardServletMultipartResolver resolver() {
-        return new StandardServletMultipartResolver();
-    }
+	public StandardServletMultipartResolver resolver() {
+		return new StandardServletMultipartResolver();
+	}
 
+	@Bean(name = "mailSender")
+	public JavaMailSenderImpl mailConfig() {
+		JavaMailSenderImpl mail = new JavaMailSenderImpl();
+		mail.setHost("smtp.gmail.com");
+		mail.setPort(587);
+		mail.setUsername("skuldeep1989@gmail.com");
+		mail.setPassword("P@ndit@123");
+		Properties pr = new Properties();
+		pr.put("mail.transport.protocol", "smtp");
+		pr.put("mail.smtp.auth", true);
+		pr.put("mail.smtp.starttls.enable", true);
+		pr.put("mail.debug", true);
+
+		mail.setJavaMailProperties(pr);
+
+		return mail;
+	}
 
 }

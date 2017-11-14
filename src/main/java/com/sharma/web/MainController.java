@@ -22,9 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sharma.exception.ProductNotFoundException;
 import com.sharma.model.Category;
 import com.sharma.model.Product;
+import com.sharma.model.Role;
 import com.sharma.model.User;
-import com.sharma.model.UserRole;
 import com.sharma.service.CategoryService;
+import com.sharma.service.EmailService;
 import com.sharma.service.ProductService;
 import com.sharma.service.RoleService;
 import com.sharma.service.UserService;
@@ -39,15 +40,20 @@ public class MainController {
 	UserService userService;
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	EmailService emailService;
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-	public ModelAndView homePage() {
+	public ModelAndView homePage(@RequestParam(name="logout", required = false)	String logout) {
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("base");
-		mv.addObject("title", "MistletoeMia-Home");
+		mv.addObject("title", "Home");
 		mv.addObject("message", "MistletoeMia-Home");
 		mv.addObject("userClickHome", true);
+		if(logout!=null) {
+			mv.addObject("logout", "You have logged out successfully!");
+		}
 		return mv;
 	}
 
@@ -135,7 +141,8 @@ public class MainController {
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView loginPage(@RequestParam(name="error", required = false)	String error,
-			@RequestParam(name="logout", required = false) String logout) {
+			@RequestParam(name="logout", required = false) String logout, 
+			@RequestParam(name="activation", required = false) String activation) {
 		ModelAndView mv = new ModelAndView();		
 		mv.setViewName("base");
 		mv.addObject("title", "Login");
@@ -145,6 +152,9 @@ public class MainController {
 		}
 		if(logout!=null) {
 			mv.addObject("logout", "You have logged out successfully!");
+		}
+		if(activation!=null) {
+			mv.addObject("activation", "User activated successfully!");
 		}
 		return mv;
 	}
@@ -158,22 +168,21 @@ public class MainController {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
 
-		return "redirect:/login?logout";
+		return "redirect:/?logout=true";
 	}
 
 	@RequestMapping(value = "/membership", method = RequestMethod.GET)
 	public ModelAndView register(@RequestParam(name="register", required=false) boolean register) {
 		ModelAndView mv = new ModelAndView();
-		Set se= new HashSet();
-		se.add("ROLE_ADMIN");
-		se.add("ROLE_USER");		
-		mv.addObject("roles", se);
+	
+		mv.addObject("roles", roleService.getAllRole());
 		mv.addObject("user", new User());
 		mv.setViewName("base");
 		mv.addObject("title", "Register");
 		mv.addObject("userClickRegister", true);
 		if(register){
 			mv.addObject("registered", "Registered Successfully");
+			mv.addObject("activation", "An Activation Link is Send to your Mail.");
 		}
 		return mv;
 	}
@@ -181,22 +190,27 @@ public class MainController {
 	@RequestMapping(value = "/membership", method = RequestMethod.POST)
 	public String registerNew(@ModelAttribute("user") User user, HttpServletRequest request) {
 		
-		System.out.println("HEllo Kuldeeeeppppppppppppppppppppp");
+		System.out.println("HEllO Kuldeeeeppppppppppppppppppppp");
 		System.out.println(user.getRoleName());
-	    UserRole u = new UserRole();
-	    u.setRole(user.getRoleName());
-	    Set<UserRole> set = new HashSet<UserRole>();
-	    set.add(u);
+		Role r = roleService.getRole(user.getRoleName());
+	    //UserRole u = new UserRole();
+	    //u.setRole(user.getRoleName());
+	   // Set<UserRole> set = new HashSet<UserRole>();
+	    Set<Role> set = new HashSet<Role>();
+	    set.add(r);
 	    user.setUserRole(set);
-	    user.setEnabled(true);
+	    user.setEnabled(false);
 		userService.register(user);
+		emailService.sendEmail(user.getEmail(), 
+				"skuldeep1989@gmail.com","Activation Link",
+				"http://localhost:8080/MistletoeMia/activate/user/"+user.getUsername());
 		return "redirect:/membership?register=true";		
 	}
 
 	@ModelAttribute("categories")
 	public List<Category> modelCategories() {
-		System.out.println("getting category list");
-		System.out.println(categoryService.list().size());
+		//System.out.println("getting category list");
+		//System.out.println(categoryService.list().size());
 		return categoryService.list();
 	}
 	
@@ -207,5 +221,15 @@ public class MainController {
         mv.addObject("accessDenied", true);
         return mv;
     }
+	
+	
+	@RequestMapping(value="/activate/user/{userName}")
+	public String activateUserByEmail(@PathVariable("userName")String userName){
+		 User u = userService.getByUserName(userName);
+		 u.setEnabled(true);
+		 userService.updateUser(u);
+		 return "redirect:/login?activation=true";
+	}
+	
 
 }

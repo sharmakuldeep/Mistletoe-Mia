@@ -25,6 +25,8 @@
 
 <script>
 	window.menu = '${title}';
+	
+	console.log(window.menu);
 
 	window.contextRoot = '${contextRoot}'
 </script>
@@ -106,9 +108,20 @@
 				<%@include file="singleProduct.jsp"%>
 			</c:if>
 			
+			<c:if test="${userClickManageUser==true }">
+				<%@include file="manageUser.jsp"%>
+			</c:if>
+			
+			<!-- Load only when user clicks manage product -->
+			<c:if test="${userClickShowCart == true}">
+				<%@include file="cart.jsp"%>
+			</c:if>
+			
 			<c:if test="${accessDenied==true }">
 				<%@include file="403.jsp"%>
 			</c:if>
+			
+			
 
 
 		</div>

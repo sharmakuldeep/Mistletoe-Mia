@@ -26,9 +26,8 @@ public class GlobalController {
 	
 	
 	@ModelAttribute("userModel")
-	public User getUserModel() {		
+	public User getUserModel() {
 		if(session.getAttribute("userModel")==null) {		
-			System.out.println("userModel is not null");
 			// get the authentication object
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			
@@ -45,17 +44,17 @@ public class GlobalController {
 //					userModel.setFullName(user.getFirstName() + " " + user.getLastName());
 					userModel.setUsername(user.getUsername());
 					userModel.setRoleName(user.getUsername());
-//					userModel.setRoleName((user.getUserRole().);					
-//					if(user.getRole().equals("USER")) {
-//						userModel.setCart(user.getCart());					
-//					}				
+//					userModel.setRoleName((user.getUserRole().);
+					user.setRoleName("ROLE_USER");
+					if(user.getRoleName().equals("ROLE_USER")) {
+						userModel.setCart(user.getCart());					
+					}				
 	
 					session.setAttribute("userModel", userModel);
 					return userModel;
 				}			
 			}
 		}
-		System.out.println("userModel is null");
 		return (User) session.getAttribute("userModel");		
 	}
 		

@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sharma.model.Product;
+import com.sharma.model.User;
 import com.sharma.service.ProductService;
+import com.sharma.service.UserService;
 
 @Controller
 @RequestMapping("/json/data")
 public class JsonDataController {
     @Autowired
      ProductService productService;	
+    @Autowired
+    UserService userService;
+    
 	@RequestMapping("/admin/all/products")
 	@ResponseBody
 	public List<Product> getAllProductsList() {		
@@ -29,6 +34,14 @@ public class JsonDataController {
 		return productService.listActiveProducts();
 				
 	}
+	@RequestMapping("/admin/all/users")
+	@ResponseBody
+	public List<User> getAllUsersList() {	
+		//System.out.println("all users");
+		return userService.getAllUser();				
+	}
+	
+	
 	@RequestMapping("/category/{id}/products")
 	@ResponseBody
 	public List<Product> getProductsByCategory(@PathVariable int id) {

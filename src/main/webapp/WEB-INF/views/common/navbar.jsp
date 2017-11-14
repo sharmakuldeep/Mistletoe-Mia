@@ -29,10 +29,14 @@
                     <li id="listProducts">
                         <a href="${contextRoot}/show/all/products">View Products</a>
                     </li>
-				
+				  <security:authorize access="hasAuthority('ROLE_ADMIN')">
 	                    <li id="manageProduct">
 	                        <a href="${contextRoot}/manage/product">Manage Product</a>
-	                    </li>					
+	                    </li>	
+	                    <li id="manageUser">
+	                        <a href="${contextRoot}/manage/user">Manage User</a>
+	                    </li>
+	                    </security:authorize>				
 				
                 </ul>
 			    
@@ -56,8 +60,8 @@
 			                    <li id="cart">
 			                        <a href="${contextRoot}/cart/show">
 			                        	<span class="glyphicon glyphicon-shopping-cart"></span>&#160;
-<%-- 			                        	<span class="badge">${userModel.cart.cartLines}</span> - &#8377; ${userModel.cart.grandTotal} 
- --%>			                        </a>
+ 			                        	<span class="badge">${userModel.cart.cartLines}</span> - &#8377; ${userModel.cart.grandTotal} 
+ 			                        </a>
 			                    </li>		     
 			                	<li role="separator" class="divider"></li>	                                   
 		                    </security:authorize>

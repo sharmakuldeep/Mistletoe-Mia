@@ -16,7 +16,6 @@ public class CategoryService {
 		return categoryDao.get(categoryId);
 	};
 	public List<Category> list(){
-		System.out.println("in category service");
 		return categoryDao.list();
 	};	
 	public boolean add(Category category){

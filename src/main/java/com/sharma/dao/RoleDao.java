@@ -2,12 +2,12 @@ package com.sharma.dao;
 
 import java.util.List;
 
-import com.sharma.model.UserRole;
+import com.sharma.model.Role;
 
 public interface RoleDao {
 	
 	
-	public List<UserRole>getAll();
-	public UserRole getRole(String role);
+	public List<Role>getAll();
+	public Role getRole(String role);
 
 }

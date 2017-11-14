@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.sharma.config.AppConfig;
+import com.sharma.model.Role;
 import com.sharma.model.User;
 import com.sharma.model.UserRole;
 import com.sharma.service.RoleService;
@@ -29,13 +30,14 @@ public class UserTestCase {
 	
 	private static AnnotationConfigApplicationContext context=null;		
 	private static UserService userService;	
-	
+	private static RoleService roleService;
 	@BeforeClass
 	public static void init() {
 		context = new AnnotationConfigApplicationContext();
 		context.scan("com.sharma");
 		context.refresh();
 		userService = (UserService)context.getBean("userService");
+		roleService = (RoleService)context.getBean("roleService");
 	}
 		
 	@Test
@@ -47,6 +49,8 @@ public class UserTestCase {
 			   Set<UserRole> roleSet= new HashSet<UserRole>();
 			   roleSet.add(new UserRole(user,"ROLE_ADMIN"));
 //			   roleSet.add(new UserRole(user,"ROLE_USER"));
+			   List<Role> r = roleService.getAllRole();
+			   Set s = new HashSet(r);
 			user.setEnabled(true);
 			user.setUsername("Nirmal");
 			user.setPassword("123456");
@@ -54,7 +58,7 @@ public class UserTestCase {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String hashedPassword = passwordEncoder.encode(password);
 			user.setPassword(hashedPassword);
-			user.setUserRole(roleSet);
+			user.setUserRole(s);
 			assertEquals("Save new category", true, userService.register(user));
 			
     }

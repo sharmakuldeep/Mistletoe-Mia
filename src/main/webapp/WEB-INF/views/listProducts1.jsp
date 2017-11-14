@@ -117,8 +117,10 @@
 					<div class="thumbnail">
 						<img class="group list-group-image"
 							ng-src="${images}/{{product.code}}.jpg"
-							style="height: 200px; width: auto" alt="" />
-						<div class="caption">
+							ng-class="{'largImage':hovering}" ng-mouseenter="hovering=true"
+							ng-mouseleave="hovering=false" style="height: 200px; width: auto"
+							alt="" />
+						<div class="caption" style="background:rgba(211, 211, 211, 0.18);">
 							<h4 class="group inner list-group-item-heading">{{
 								product.name }}</h4>
 							<p class="group inner list-group-item-text">{{
@@ -127,11 +129,15 @@
 								<div class="col-xs-12 col-md-4">
 									<p class="lead">$ {{ product.unitPrice }}</p>
 								</div>
+								
+								<security:authorize access="hasAuthority('ROLE_USER')">
 								<div class="col-xs-12 col-md-4">
 									<a href="${contextRoot}/cart/add/{{product.id}}/product"
 										class="btn btn-success"> <span
 										class="glyphicon glyphicon-shopping-cart"></span></a>
 								</div>
+								</security:authorize>
+								
 								<div class="col-xs-12 col-md-4">
 									<a href="${contextRoot}/show/{{product.id}}/product"
 										class="btn btn-primary"><span

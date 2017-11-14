@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sharma.dao.UserDao;
+import com.sharma.model.Cart;
 import com.sharma.model.User;
 
 
@@ -39,8 +40,25 @@ public class UserDaoImpl implements UserDao {
 	
 	public void register(User user){
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		   Cart cart = new Cart();
+		   cart.setUser(user);
+		   user.setCart(cart);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sessionFactory.getCurrentSession().persist(user);
+	}
+	
+	public boolean updateUser(User u){
+		sessionFactory.getCurrentSession().update(u);
+		return true;
+		
+		
+	}
+	
+	public List<User> getAllUser(){
+		
+		System.out.println("get All User DaoImpl()");
+		return (List<User>) sessionFactory.getCurrentSession().createQuery("From User").list();
 	}
 
 }
